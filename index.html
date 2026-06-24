@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>たべナビ｜1週間の献立メーカー</title>
+  <link id="appIcon" rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2328785d'/%3E%3Crect x='11' y='18' width='42' height='36' rx='6' fill='%23fff7e8'/%3E%3Cpath d='M11 27a9 9 0 0 1 9-9h24a9 9 0 0 1 9 9v6H11z' fill='%23f07c42'/%3E%3Cpath d='M21 12v11M32 12v11M43 12v11' stroke='%23ffe1a8' stroke-width='4' stroke-linecap='round'/%3E%3Ccircle cx='22' cy='41' r='4' fill='%2328785d'/%3E%3Ccircle cx='42' cy='41' r='4' fill='%23f07c42'/%3E%3C/svg%3E" />
+  <style>
+    :root{--ink:#18352d;--muted:#687b74;--paper:#fbfaf5;--card:#fff;--green:#28785d;--green-text:#28785d;--on-green:#fff;--lime:#dff08a;--orange:#f07c42;--orange-text:#b94d1f;--on-orange:#18352d;--line:#dfe5dc;--shadow:0 12px 34px rgba(32,67,52,.09)}
+    *{box-sizing:border-box} body{margin:0;background:var(--paper);color:var(--ink);font-family:"Hiragino Sans","Yu Gothic UI",system-ui,sans-serif;line-height:1.6}
+    button,input,textarea,select{font:inherit} button{cursor:pointer} .shell{min-height:100vh}
+    header{padding:22px 5vw;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(24,53,45,.08)}
+    .brand{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:.04em}.logo{width:46px;height:46px;border-radius:14px;background:var(--green);display:grid;place-items:center;box-shadow:0 5px 12px rgba(32,67,52,.16);transition:background-color .25s,transform .25s}.logo:hover{transform:rotate(-3deg)}.logo svg{width:38px;height:38px;display:block}.logo .calendar-page{fill:#fff7e8}.logo .calendar-top,.logo .food-bowl{fill:var(--orange);transition:fill .25s}.logo .calendar-line{stroke:var(--green);transition:stroke .25s}.logo .ring{stroke:#ffe1a8}.logo .steam{stroke:#fff7e8}
+    .logo.tomato-logo{background:transparent;border-radius:0;box-shadow:none;filter:drop-shadow(0 5px 7px rgba(32,67,52,.18));width:48px;height:48px}.logo.tomato-logo svg{width:46px;height:46px;overflow:visible}.logo .tomato-body{fill:#d94b3d}.logo .tomato-leaf,.logo .tomato-stem{fill:#3f7d4b;stroke:#3f7d4b}.logo .tomato-shine{fill:#fff;opacity:.3}.theme-pop{width:310px!important}.themes{grid-template-columns:repeat(5,1fr)!important}
+    .header-actions{display:flex;align-items:center;gap:10px}.badge{font-size:12px;background:#eef4e7;padding:5px 10px;border-radius:99px;color:var(--green);font-weight:700}.theme-settings{position:relative}.theme-settings summary{list-style:none;border:1px solid var(--line);background:white;border-radius:12px;padding:7px 11px;font-size:13px;font-weight:800;color:var(--ink);cursor:pointer}.theme-settings summary::-webkit-details-marker{display:none}.theme-pop{position:absolute;right:0;top:46px;width:250px;padding:17px;background:white;border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);z-index:20}.theme-pop b{font-size:14px}.theme-pop>small{display:block;color:var(--muted);margin:2px 0 12px}.themes{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.theme-choice{border:2px solid transparent;border-radius:12px;background:#f5f6f2;padding:7px 4px;font-size:11px;color:var(--ink)}.theme-choice:hover,.theme-choice.active{border-color:var(--green)}.swatch{width:24px;height:24px;border-radius:50%;margin:0 auto 3px}.custom-colors{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}.color-field{font-size:11px;color:var(--muted)}.color-field input{display:block;width:100%;height:34px;border:0;padding:0;background:none}.apply-colors{width:100%;border:0;border-radius:10px;background:var(--green);color:white;font-weight:800;padding:8px;margin-top:11px}
+    main{max-width:1160px;margin:auto;padding:52px 24px 80px}.hero{display:grid;grid-template-columns:1.03fr .97fr;gap:54px;align-items:start}
+    .eyebrow{font-size:13px;color:var(--orange);font-weight:800;letter-spacing:.14em}.intro{padding-top:28px}.intro p{color:var(--ink);font-size:clamp(22px,3vw,34px);font-weight:800;line-height:1.45;max-width:520px;margin:17px 0}.intro .subcopy{color:var(--muted);font-size:15px;font-weight:400;max-width:500px}.steps{display:flex;gap:10px;margin-top:30px;flex-wrap:wrap}.step{font-size:13px;background:white;border:1px solid var(--line);border-radius:99px;padding:8px 12px}.step b{color:var(--green);margin-right:4px}
+    .form-card{background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:28px;padding:28px}.label-row{display:flex;justify-content:space-between;align-items:end;margin-bottom:8px}.label-row label,.field label{font-weight:800;font-size:14px}.hint{font-size:12px;color:var(--muted)}
+    textarea{width:100%;height:132px;resize:vertical;border:1px solid #cfd9d0;border-radius:16px;padding:14px 16px;background:#fcfdf9;color:var(--ink);outline:none}textarea:focus,input:focus,select:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(40,120,93,.1)}
+    .quick-head{display:flex;align-items:center;justify-content:space-between;margin-top:10px}.quick-head span{font-size:12px;font-weight:800;color:var(--ink)}.quick-head small{font-size:10px;color:var(--muted)}.examples{display:flex;gap:7px;flex-wrap:wrap;margin:6px 0 20px}.chip{border:0;border-radius:99px;background:#f0f3ed;color:#50645c;padding:6px 10px;font-size:12px;transition:.15s}.chip:hover{background:#e3ebdf;transform:translateY(-1px)}.chip.frequent:before{content:'★';color:var(--orange);font-size:9px;margin-right:3px}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.field{display:grid;gap:7px}.field input,.field select{width:100%;border:1px solid #cfd9d0;border-radius:13px;padding:11px 12px;background:white;color:var(--ink);outline:none}.preference-field,.exclude-field{grid-column:1/-1}.field-note{font-size:10px;color:var(--muted);margin-top:-3px}
+    .make{border:0;width:100%;margin-top:20px;border-radius:15px;background:var(--green);color:white;font-weight:800;padding:14px;box-shadow:0 8px 18px rgba(40,120,93,.2);transition:.2s}.make:hover{transform:translateY(-1px);background:#216c53}.make:active{transform:none}
+    #results{display:none;margin-top:62px}.result-head{display:flex;justify-content:space-between;align-items:end;gap:18px;margin-bottom:22px}.result-head h2{font-size:30px;margin:0;letter-spacing:-.03em}.result-head p{margin:2px 0 0;color:var(--muted)}.again{border:1px solid var(--line);background:white;border-radius:12px;padding:9px 14px;color:var(--green);font-weight:800}
+    .summary{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-bottom:18px}.summary>div{border-radius:18px;padding:17px 19px;background:white;border:1px solid var(--line)}.summary small{color:var(--muted);display:block}.summary strong{font-size:22px}.summary .ok strong{color:var(--green)}.summary .warn strong{color:var(--orange)}
+    .layout{display:grid;grid-template-columns:1.55fr .75fr;gap:18px}.panel{background:white;border:1px solid var(--line);border-radius:22px;overflow:hidden}.panel-title{padding:18px 20px;border-bottom:1px solid var(--line);font-weight:800;display:flex;justify-content:space-between}.days{padding:5px 20px}.day{display:grid;grid-template-columns:62px 1fr auto;gap:14px;align-items:center;padding:15px 0;border-bottom:1px dashed var(--line)}.day:last-child{border:0}.dow{font-size:12px;color:var(--muted)}.dow b{display:block;font-size:18px;color:var(--ink)}.meal b{display:block}.meal small{color:var(--muted)}.meal-parts{display:flex;gap:6px;flex-wrap:wrap;margin-top:5px}.meal-part{font-size:12px;color:#53675f;background:#f5f6f2;border-radius:7px;padding:3px 7px}.meal-part em{font-style:normal;font-weight:800;color:var(--green);margin-right:3px}.cost{font-size:13px;color:var(--green);font-weight:800;white-space:nowrap}
+    .meal-set{display:grid;gap:2px;margin-top:5px}.meal-set small{display:flex;gap:6px;align-items:baseline}.meal-set em{font-style:normal;font-size:10px;font-weight:800;color:var(--green);background:#edf4ef;border-radius:5px;padding:1px 5px;min-width:32px;text-align:center}.nutrition{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}.nutrition span{font-size:11px;background:#f0f4ee;color:#52675e;border-radius:6px;padding:2px 6px}.nutrition .kcal{background:var(--lime);color:var(--ink);font-weight:800}.shopping{padding:15px 20px}.shop-item{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:10px 0}.shop-item input{accent-color:var(--green);width:17px;height:17px}.shop-item label{font-size:14px}.shop-item label small{display:block;color:var(--muted)}.price{font-size:13px;font-weight:700}.done label{text-decoration:line-through;color:#9aa7a1}.empty{padding:30px 8px;color:var(--muted);text-align:center}.note{margin-top:14px;border-radius:16px;padding:14px 16px;background:#f1f5e9;color:#506057;font-size:13px}.budget-note{margin:14px 0 0;color:var(--orange);font-size:13px;font-weight:700}
+    footer{text-align:center;color:#8a9892;font-size:12px;margin-top:50px}@media(max-width:820px){.hero,.layout{grid-template-columns:1fr}.hero{gap:30px}.intro h1{font-size:46px}.summary{grid-template-columns:1fr 1fr}.summary>div:last-child{grid-column:1/-1}}@media(max-width:520px){header{padding:16px 18px}header .badge{display:none}.theme-settings summary{font-size:0}.theme-settings summary:after{content:'🎨';font-size:16px}.theme-pop{position:fixed;left:15px;right:15px;top:68px;width:auto}main{padding:36px 15px 60px}.intro h1{font-size:38px}.form-card{padding:20px;border-radius:22px}.form-grid{grid-template-columns:1fr}.result-head{align-items:start;flex-direction:column}.summary{grid-template-columns:1fr}.summary>div:last-child{grid-column:auto}.day{grid-template-columns:54px 1fr}.cost{grid-column:2}.panel-title{padding:16px}.days{padding:3px 16px}}
+    .make,.apply-colors{color:var(--on-green)}.make:hover{background:var(--green);filter:brightness(.94)}.badge{background:var(--green);color:var(--on-green)}.step b,.again,.cost,.meal-part em,.summary .ok strong{color:var(--green-text)}.eyebrow,.budget-note,.summary .warn strong{color:var(--orange-text)}
+    @media(max-width:520px){.theme-pop{width:auto!important}.themes{grid-template-columns:repeat(4,1fr)!important}}
+  </style>
+</head>
+<body><div class="shell">
+  <header><div class="brand"><div class="logo" aria-label="メニューカレンダーのアイコン"><svg viewBox="0 0 48 48" role="img" aria-hidden="true"><rect class="calendar-page" x="6" y="10" width="36" height="32" rx="5"/><path class="calendar-top" d="M6 15a5 5 0 0 1 5-5h26a5 5 0 0 1 5 5v4H6z"/><path class="ring" d="M14 7v7M24 7v7M34 7v7" fill="none" stroke-width="3.5" stroke-linecap="round"/><path class="calendar-line" d="M12 25h7M29 25h7M12 31h7M29 31h7" fill="none" stroke-width="2" stroke-linecap="round" opacity=".38"/><path class="food-bowl" d="M15 32h18c-.7 5.2-4.1 7.5-9 7.5S15.7 37.2 15 32z"/><path class="steam" d="M20 30c-1.4-1.6 1.4-2.6 0-4.2M25 30c-1.4-1.6 1.4-2.6 0-4.2M30 30c-1.4-1.6 1.4-2.6 0-4.2" fill="none" stroke-width="1.7" stroke-linecap="round"/></svg></div>たべナビ</div><div class="header-actions"><div class="badge">買いすぎない献立メーカー</div><details class="theme-settings"><summary>🎨 色の設定</summary><div class="theme-pop"><b>好きな色で使う</b><small>テーマを選ぶか、色を自由に調整できます</small><div class="themes"><button type="button" class="theme-choice active" data-primary="#28785d" data-accent="#f07c42" data-paper="#fbfaf5"><span class="swatch" style="background:#28785d"></span>森</button><button type="button" class="theme-choice" data-primary="#3d65a8" data-accent="#ee8d50" data-paper="#f7f9fc"><span class="swatch" style="background:#3d65a8"></span>空</button><button type="button" class="theme-choice" data-primary="#a54562" data-accent="#dc8648" data-paper="#fff8f7"><span class="swatch" style="background:#a54562"></span>桃</button><button type="button" class="theme-choice" data-primary="#7356a6" data-accent="#d48732" data-paper="#faf8ff"><span class="swatch" style="background:#7356a6"></span>藤</button></div><div class="custom-colors"><label class="color-field">メイン色<input id="primaryColor" type="color" value="#28785d"></label><label class="color-field">アクセント色<input id="accentColor" type="color" value="#f07c42"></label></div><button type="button" class="apply-colors" id="applyColors">この色を使う</button></div></details></div></header>
+  <main>
+    <section class="hero">
+      <div class="intro"><div class="eyebrow">WEEKLY MEAL PLANNER</div><p>「今日なに作る？」で<br>悩まない。</p><div class="subcopy">食材をなるべく使い切る7日分の夜ごはんと、足りないものだけの買い物リストを作ります。</div><div class="steps"><div class="step"><b>01</b> 食材を入力</div><div class="step"><b>02</b> 献立を提案</div><div class="step"><b>03</b> 予算内でお買い物</div></div></div>
+      <form class="form-card" id="planner">
+        <div class="label-row"><label for="stock">冷蔵庫にあるもの</label><span class="hint">ざっくりでOK</span></div>
+        <textarea id="stock" placeholder="例：豆腐4丁、にんじん2本、じゃがいもがあります"></textarea>
+        <div class="quick-head"><span>よく使う食材</span><small>使うほど上に表示されます</small></div><div class="examples" id="quickIngredients"></div>
+        <div class="form-grid"><div class="field"><label for="people">人数</label><select id="people"><option value="1">1人</option><option value="2" selected>2人</option><option value="3">3人</option><option value="4">4人</option></select></div><div class="field"><label for="budget">買い足し予算</label><select id="budget"><option value="2000">2,000円</option><option value="3000" selected>3,000円</option><option value="4000">4,000円</option><option value="5000">5,000円</option><option value="7000">7,000円</option></select></div><div class="field preference-field"><label for="preference">献立の希望</label><select id="preference"><option value="quick">時短：20分以内で作れる夕飯中心</option><option value="saving">節約</option><option value="lowcal">ダイエット</option><option value="kids">子ども向け</option><option value="japanese">和食多め</option></select></div><div class="field exclude-field"><label for="exclude">苦手な食材・アレルギー除外</label><input id="exclude" type="text" placeholder="例：卵、きのこ、乳製品"><div class="field-note">複数ある場合は「、」で区切ってください。該当食材を献立と買い物リストから除外します。</div></div></div>
+        <button class="make" type="submit">1週間の献立をつくる　→</button>
+      </form>
+    </section>
+    <section id="results" aria-live="polite">
+      <div class="result-head"><div><h2>今週の夜ごはん</h2><p id="result-copy"></p></div><button class="again" id="again" type="button">↻ 献立を入れ替える</button></div>
+      <div class="summary"><div><small>買い足し予算</small><strong id="sumBudget"></strong></div><div class="ok" id="costBox"><small>買い物の目安</small><strong id="sumCost"></strong></div><div><small>夕食の平均カロリー</small><strong id="avgCalories"></strong></div></div>
+      <div class="layout"><div class="panel"><div class="panel-title"><span>7日分の献立</span><span>🍚 主菜＋副菜＋汁物</span></div><div class="days" id="days"></div></div><div><div class="panel"><div class="panel-title"><span>買い物リスト</span><span id="itemCount"></span></div><div class="shopping" id="shopping"></div></div><div class="note">価格は一般的な目安です。お店や季節によって変わるため、少し余裕を持ってお買い物してください。</div><div class="budget-note" id="budgetNote"></div></div></div>
+    </section>
+    <footer>献立は目安です。アレルギーや食事制限に合わせて調整してください。</footer>
+  </main>
+</div>
+<script>
+const catalog={
+  '豆腐':{unit:'丁',price:80},'にんじん':{unit:'本',price:60},'じゃがいも':{unit:'個',price:55},'玉ねぎ':{unit:'個',price:65},'卵':{unit:'個',price:28},'豚肉':{unit:'200g',price:280},'鶏肉':{unit:'250g',price:260},'ひき肉':{unit:'200g',price:250},'鮭':{unit:'2切',price:360},'さば':{unit:'2切',price:300},'キャベツ':{unit:'1/2玉',price:150},'もやし':{unit:'袋',price:45},'きのこ':{unit:'パック',price:120},'小松菜':{unit:'束',price:140},'大根':{unit:'1/2本',price:130},'ねぎ':{unit:'本',price:90},'トマト':{unit:'個',price:90},'なす':{unit:'本',price:80},'ピーマン':{unit:'個',price:55},'牛乳':{unit:'500ml',price:130},'うどん':{unit:'2玉',price:100},'厚揚げ':{unit:'パック',price:130},'ツナ缶':{unit:'缶',price:110},'こんにゃく':{unit:'枚',price:90},'パン粉':{unit:'袋',price:110},'カレールー':{unit:'箱',price:180}
+};
+const recipes=[
+ {name:'豆腐と豚肉のうま塩炒め',needs:['豆腐','豚肉','もやし','ねぎ'],tag:'フライパンひとつ'},
+ {name:'ごろごろ野菜の定番カレー',needs:['じゃがいも','にんじん','玉ねぎ','鶏肉','カレールー'],tag:'翌日にもおすすめ'},
+ {name:'鮭ときのこの包み焼き',needs:['鮭','きのこ','玉ねぎ'],tag:'洗い物少なめ'},
+ {name:'ふわふわ豆腐ハンバーグ',needs:['豆腐','ひき肉','玉ねぎ','卵','パン粉'],tag:'やさしい味'},
+ {name:'豚肉とキャベツの味噌炒め',needs:['豚肉','キャベツ','ピーマン'],tag:'ごはんが進む'},
+ {name:'じゃがいもと鶏肉の照り煮',needs:['じゃがいも','鶏肉','にんじん'],tag:'作り置きOK'},
+ {name:'豆腐と小松菜のとろみ煮',needs:['豆腐','小松菜','きのこ'],tag:'節約メニュー'},
+ {name:'さばと大根の味噌煮',needs:['さば','大根','ねぎ'],tag:'和食の日'},
+ {name:'野菜たっぷり焼きうどん',needs:['うどん','豚肉','キャベツ','にんじん'],tag:'15分で完成'},
+ {name:'厚揚げと野菜の甘辛炒め',needs:['厚揚げ','にんじん','ピーマン','玉ねぎ'],tag:'お財布にやさしい'},
+ {name:'ツナとじゃがいものオムレツ',needs:['ツナ缶','じゃがいも','卵','玉ねぎ'],tag:'子どもにも人気'},
+ {name:'豆腐チャンプルー',needs:['豆腐','卵','もやし','豚肉'],tag:'たんぱく質しっかり'},
+ {name:'鶏肉と根菜のほっこり煮',needs:['鶏肉','にんじん','大根','こんにゃく'],tag:'味しみおかず'},
+ {name:'なすとひき肉のそぼろ炒め',needs:['なす','ひき肉','ねぎ'],tag:'甘辛味'},
+ {name:'野菜と卵の中華あんかけ',needs:['卵','にんじん','もやし','きのこ'],tag:'節約メニュー'}
+];
+// すべて1人分の概算値（kcal / P:たんぱく質 / F:脂質 / C:炭水化物）
+const nutrition={
+ '豆腐と豚肉のうま塩炒め':[410,27,25,16], 'ごろごろ野菜の定番カレー':[620,25,22,82],
+ '鮭ときのこの包み焼き':[360,29,20,14], 'ふわふわ豆腐ハンバーグ':[430,30,24,20],
+ '豚肉とキャベツの味噌炒め':[470,27,29,21], 'じゃがいもと鶏肉の照り煮':[440,30,17,40],
+ '豆腐と小松菜のとろみ煮':[310,20,17,19], 'さばと大根の味噌煮':[420,27,26,18],
+ '野菜たっぷり焼きうどん':[560,24,18,72], '厚揚げと野菜の甘辛炒め':[390,20,22,27],
+ 'ツナとじゃがいものオムレツ':[450,24,25,31], '豆腐チャンプルー':[400,28,25,13],
+ '鶏肉と根菜のほっこり煮':[390,29,14,35], 'なすとひき肉のそぼろ炒め':[460,25,29,23],
+ '野菜と卵の中華あんかけ':[340,18,19,24]
+};
+const mainTimes={'豆腐と豚肉のうま塩炒め':15,'ごろごろ野菜の定番カレー':35,'鮭ときのこの包み焼き':25,'ふわふわ豆腐ハンバーグ':30,'豚肉とキャベツの味噌炒め':15,'じゃがいもと鶏肉の照り煮':30,'豆腐と小松菜のとろみ煮':20,'さばと大根の味噌煮':35,'野菜たっぷり焼きうどん':15,'厚揚げと野菜の甘辛炒め':15,'ツナとじゃがいものオムレツ':20,'豆腐チャンプルー':15,'鶏肉と根菜のほっこり煮':35,'なすとひき肉のそぼろ炒め':15,'野菜と卵の中華あんかけ':20};
+const sideDishes=[
+ {name:'小松菜とにんじんのおひたし',needs:['小松菜','にんじん'],nutrition:[55,3,1,8],time:8},
+ {name:'キャベツとツナのサラダ',needs:['キャベツ','ツナ缶'],nutrition:[95,6,5,7],time:7},
+ {name:'冷ややっこのねぎだれ',needs:['豆腐','ねぎ'],nutrition:[90,7,5,4],time:5},
+ {name:'じゃがいものきのこ和え',needs:['じゃがいも','きのこ'],nutrition:[105,3,2,20],time:10},
+ {name:'もやしと卵のナムル',needs:['もやし','卵'],nutrition:[110,7,7,5],time:10},
+ {name:'大根とツナのさっぱり煮',needs:['大根','ツナ缶'],nutrition:[85,6,3,8],time:12}
+];
+const soupDishes=[
+ {name:'豆腐とねぎの味噌汁',needs:['豆腐','ねぎ'],nutrition:[65,5,3,5],time:8},
+ {name:'玉ねぎと卵のスープ',needs:['玉ねぎ','卵'],nutrition:[80,5,4,7],time:10},
+ {name:'きのこと小松菜のすまし汁',needs:['きのこ','小松菜'],nutrition:[35,3,1,5],time:8},
+ {name:'じゃがいもとにんじんの味噌汁',needs:['じゃがいも','にんじん'],nutrition:[85,3,2,15],time:12},
+ {name:'キャベツともやしのスープ',needs:['キャベツ','もやし'],nutrition:[40,2,1,7],time:8},
+ {name:'大根とねぎの味噌汁',needs:['大根','ねぎ'],nutrition:[45,2,1,8],time:10}
+];
+const dows=['月','火','水','木','金','土','日']; let lastPlan=[]; let rotate=0;
+const quickDefaults=['豆腐4丁','にんじん2本','じゃがいも3個','卵6個','玉ねぎ3個','鶏肉250g','豚肉200g','キャベツ1/2玉','きのこ1パック','もやし1袋','小松菜1束','鮭2切'];
+const quickLabel={豆腐:'豆腐4丁',にんじん:'にんじん2本',じゃがいも:'じゃがいも3個',卵:'卵6個',玉ねぎ:'玉ねぎ3個',鶏肉:'鶏肉250g',豚肉:'豚肉200g',キャベツ:'キャベツ1/2玉',きのこ:'きのこ1パック',もやし:'もやし1袋',小松菜:'小松菜1束',鮭:'鮭2切'};
+function foodHistory(){try{return JSON.parse(localStorage.getItem('tabenavi-food-history'))||{}}catch(e){return{}}}
+function renderQuickIngredients(){
+ const history=foodHistory();const frequent=Object.keys(history).sort((a,b)=>history[b]-history[a]);const labels=[...frequent.map(x=>quickLabel[x]||x),...quickDefaults].filter((x,i,a)=>a.indexOf(x)===i).slice(0,12);
+ document.querySelector('#quickIngredients').innerHTML=labels.map(label=>{const name=Object.keys(catalog).find(x=>label.includes(x));return `<button class="chip ${name&&history[name]?'frequent':''}" type="button">${label}</button>`}).join('');
+}
+function saveFoodHistory(keys){const history=foodHistory();keys.forEach(x=>history[x]=(history[x]||0)+1);localStorage.setItem('tabenavi-food-history',JSON.stringify(history));renderQuickIngredients()}
+function parseStock(text){const stock={};Object.keys(catalog).forEach(k=>{if(text.includes(k)){const after=text.slice(text.indexOf(k)+k.length);const m=after.match(/\s*(\d+)/);stock[k]=m?+m[1]:1}});return stock}
+const allergyGroups={乳製品:['牛乳'],大豆:['豆腐','厚揚げ'],魚:['鮭','さば','ツナ缶'],小麦:['うどん','パン粉','カレールー']};
+function parseExclusions(text){const terms=text.split(/[、,，\s]+/).map(x=>x.trim()).filter(Boolean);return[...new Set(terms.flatMap(x=>[x,...(allergyGroups[x]||[])]))]}
+function dishAllowed(dish,excluded){return!dish.needs.some(food=>excluded.some(x=>food.includes(x)||x.includes(food)))}
+function preferenceBoost(recipe,preference){
+ const words={quick:['フライパン','洗い物','15分','手軽'],saving:['節約','お財布'],prep:['作り置き','翌日'],kids:['子ども','やさしい'],japanese:['和食','ほっこり','味しみ']};
+ const n=nutrition[recipe.name];
+ if(preference==='quick')return mainTimes[recipe.name]<=20?10:0;
+ if(preference==='lowcal')return Math.max(0,(650-n[0])/35);
+ if(preference==='highprotein')return n[1]/2.5;
+ if(preference==='lowcarb')return Math.max(0,(85-n[3])/5);
+ if(preference==='postpartum'){const helpful=['豆腐','卵','鮭','さば','鶏肉','小松菜','にんじん','きのこ'];return recipe.needs.filter(x=>helpful.includes(x)).length*3+(n[1]>=25?3:0)}
+ if(preference==='vegetable')return recipe.needs.filter(x=>['にんじん','じゃがいも','玉ねぎ','キャベツ','もやし','きのこ','小松菜','大根','ねぎ','トマト','なす','ピーマン'].includes(x)).length*3;
+ return(words[preference]||[]).some(word=>recipe.tag.includes(word))?8:0;
+}
+function pickDish(list,index,stock,excluded){
+ const allowed=list.filter(x=>dishAllowed(x,excluded));if(!allowed.length)return{name:'除外食材に合わせた野菜の小鉢',needs:[],nutrition:[40,2,1,6],time:5};const ranked=allowed.sort((a,b)=>b.needs.filter(x=>stock[x]).length-a.needs.filter(x=>stock[x]).length);return ranked[index%Math.min(3,ranked.length)];
+}
+function completeMeal(main,index,stock,excluded){return{...main,side:pickDish(sideDishes,index,stock,excluded),soup:pickDish(soupDishes,index+1,stock,excluded)}}
+function mealNeeds(meal){return[...meal.needs,...(meal.side?.needs||[]),...(meal.soup?.needs||[])]}
+function mealNutrition(meal){const values=[nutrition[meal.name],meal.side?.nutrition,meal.soup?.nutrition].filter(Boolean);return[0,1,2,3].map(i=>values.reduce((sum,n)=>sum+n[i],0))}
+function mealTime(meal){return Math.max(mainTimes[meal.name]||20,(meal.side?.time||0)+(meal.soup?.time||0))}
+function buildPlan(shuffle=false){
+ const text=document.querySelector('#stock').value.trim(); const stock=parseStock(text); const budget=+document.querySelector('#budget').value; const people=+document.querySelector('#people').value; const preference=document.querySelector('#preference').value;const excluded=parseExclusions(document.querySelector('#exclude').value);
+ const keys=Object.keys(stock);const eligible=recipes.filter(r=>dishAllowed(r,excluded));let scored=eligible.map((r,i)=>({...r,score:r.needs.filter(x=>keys.includes(x)).length*10-r.needs.reduce((s,x)=>s+(keys.includes(x)?0:(catalog[x]?.price||100)),0)/100+preferenceBoost(r,preference)+i/1000})).sort((a,b)=>b.score-a.score);
+ if(!shuffle&&keys.length)saveFoodHistory(keys);
+ if(shuffle){rotate=(rotate+3)%scored.length;scored=scored.slice(rotate).concat(scored.slice(0,rotate))}
+ let chosen=[]; for(const r of scored){if(chosen.length===7)break;if(!chosen.some(x=>x.name===r.name))chosen.push(r)}
+ // If the first estimate exceeds the budget, swap expensive meals for frugal choices.
+ const cheap=eligible.slice().sort((a,b)=>missingCost(a,stock,people)-missingCost(b,stock,people));
+ let guard=0; while(totalShopping(chosen,stock,people).cost>budget && guard++<20){let expensive=[...chosen].sort((a,b)=>missingCost(b,stock,people)-missingCost(a,stock,people))[0];let replacement=cheap.find(r=>!chosen.some(x=>x.name===r.name)&&missingCost(r,stock,people)<missingCost(expensive,stock,people));if(!replacement)break;chosen[chosen.indexOf(expensive)]=replacement}
+ if(shuffle&&lastPlan.length&&chosen.every((r,i)=>r.name===lastPlan[i]?.name)){
+   const alternate=recipes.find(r=>!chosen.some(x=>x.name===r.name));if(alternate)chosen[chosen.length-1]=alternate;
+ }
+ chosen=chosen.map((r,i)=>completeMeal(r,i+rotate,stock,excluded));
+ lastPlan=chosen; render(chosen,stock,budget,people,keys,excluded);
+}
+function needQty(people){return Math.max(1,Math.ceil(people/2))}
+function missingCost(r,stock,people){return[...new Set(mealNeeds(r))].reduce((s,k)=>s+(stock[k]?0:(catalog[k]?.price||100)*needQty(people)),0)}
+function totalShopping(plan,stock,people){const need={};plan.forEach(r=>mealNeeds(r).forEach(k=>{if(!stock[k])need[k]=Math.max(need[k]||0,needQty(people))}));const items=Object.entries(need).map(([name,qty])=>({name,qty,price:(catalog[name]?.price||100)*qty,unit:catalog[name]?.unit||'個'}));return{items,cost:items.reduce((s,x)=>s+x.price,0)}}
+function render(plan,stock,budget,people,stockKeys,excluded){
+ const shop=totalShopping(plan,stock,people);
+ document.querySelector('#days').innerHTML=plan.map((r,i)=>{const n=mealNutrition(r);return `<div class="day"><div class="dow"><b>${dows[i]}</b>曜日</div><div class="meal"><b>${r.name}</b><small>${r.needs.map(x=>stock[x]?`<span style="color:var(--green)">${x}✓</span>`:x).join('、')}</small><div class="meal-parts"><span class="meal-part"><em>副菜</em>${r.side.name}</span><span class="meal-part"><em>汁物</em>${r.soup.name}</span></div><div class="nutrition" aria-label="3品合計・1人分の栄養目安"><span class="kcal">${n[0]} kcal</span><span>⏱ 約${mealTime(r)}分</span><span>P ${n[1]}g</span><span>F ${n[2]}g</span><span>C ${n[3]}g</span></div></div><div class="cost">3品の買い足し 約${missingCost(r,stock,people).toLocaleString()}円</div></div>`}).join('');
+ document.querySelector('#shopping').innerHTML=shop.items.length?shop.items.map((x,i)=>`<div class="shop-item"><input type="checkbox" id="buy${i}"><label for="buy${i}">${x.name}<small>${x.unit} × ${x.qty}</small></label><span class="price">約${x.price.toLocaleString()}円</span></div>`).join(''):'<div class="empty">買い足しはありません。<br>冷蔵庫、頼もしい！</div>';
+ document.querySelectorAll('.shop-item input').forEach(x=>x.addEventListener('change',()=>x.parentElement.classList.toggle('done',x.checked)));
+ const avg=Math.round(plan.reduce((sum,r)=>sum+mealNutrition(r)[0],0)/plan.length);document.querySelector('#sumBudget').textContent=budget.toLocaleString()+'円';document.querySelector('#sumCost').textContent='約'+shop.cost.toLocaleString()+'円';document.querySelector('#avgCalories').textContent=avg.toLocaleString()+' kcal';document.querySelector('#itemCount').textContent=shop.items.length+'品';
+ const box=document.querySelector('#costBox');box.className=shop.cost<=budget?'ok':'warn'; document.querySelector('#budgetNote').textContent=shop.cost<=budget?`予算内です。残りの目安は ${Math.max(0,budget-shop.cost).toLocaleString()}円。`:`目安を ${Math.max(0,shop.cost-budget).toLocaleString()}円 超えています。特売品や代替食材で調整してください。`;
+ document.querySelector('#result-copy').textContent=(stockKeys.length?`${stockKeys.join('・')}を活かした、${people}人分の献立です。`:`家にある食材が未入力のため、買い足し少なめの献立です。`)+(excluded.length?` 除外：${excluded.join('・')}`:'');
+ document.querySelector('#results').style.display='block';document.querySelector('#results').scrollIntoView({behavior:'smooth',block:'start'});
+}
+renderQuickIngredients();document.querySelector('#quickIngredients').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;const t=document.querySelector('#stock');t.value+=(t.value?'、':'')+b.textContent.replace('★','')});
+const logo=document.querySelector('.logo');logo.classList.add('tomato-logo');logo.setAttribute('aria-label','トマトのアイコン');logo.innerHTML='<svg viewBox="0 0 64 64" role="img" aria-hidden="true"><circle class="tomato-body" cx="32" cy="36" r="23"/><path class="tomato-leaf" d="M32 19c-7-8-15-4-18 0 7 0 9 4 11 7-5-1-8 1-10 4 8 1 13-1 17-5 4 4 9 6 17 5-2-3-5-5-10-4 2-3 4-7 11-7-3-4-11-8-18 0z" stroke="none"/><path class="tomato-stem" d="M32 18v-8" fill="none" stroke-width="5" stroke-linecap="round"/><ellipse class="tomato-shine" cx="23" cy="30" rx="5" ry="8"/></svg>';
+function rgb(hex){const h=hex.replace('#','');return[parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)]}
+function luminance(hex){return rgb(hex).map(v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)}).reduce((s,v,i)=>s+v*[.2126,.7152,.0722][i],0)}
+function contrast(a,b){const x=luminance(a),y=luminance(b);return(Math.max(x,y)+.05)/(Math.min(x,y)+.05)}
+function readableOn(color){return contrast(color,'#18352d')>=contrast(color,'#ffffff')?'#18352d':'#ffffff'}
+function safeText(color,background){if(contrast(color,background)>=4.5)return color;return luminance(background)>.45?'#18352d':'#ffffff'}
+function setColors(primary,accent,paper='#fbfaf5'){
+ const root=document.documentElement.style;root.setProperty('--green',primary);root.setProperty('--orange',accent);root.setProperty('--paper',paper);root.setProperty('--lime',accent+'33');root.setProperty('--on-green',readableOn(primary));root.setProperty('--on-orange',readableOn(accent));root.setProperty('--green-text',safeText(primary,paper));root.setProperty('--orange-text',safeText(accent,paper));document.querySelector('#primaryColor').value=primary;document.querySelector('#accentColor').value=accent;
+ const favicon=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="36" r="23" fill="#d94b3d"/><path d="M32 19c-7-8-15-4-18 0 7 0 9 4 11 7-5-1-8 1-10 4 8 1 13-1 17-5 4 4 9 6 17 5-2-3-5-5-10-4 2-3 4-7 11-7-3-4-11-8-18 0z" fill="#3f7d4b"/><path d="M32 18v-8" stroke="#3f7d4b" stroke-width="5" stroke-linecap="round"/><ellipse cx="23" cy="30" rx="5" ry="8" fill="white" opacity=".3"/></svg>`;document.querySelector('#appIcon').href='data:image/svg+xml,'+encodeURIComponent(favicon);localStorage.setItem('tabenavi-colors',JSON.stringify({primary,accent,paper}));
+}
+document.querySelector('.themes').insertAdjacentHTML('beforeend',`<button type="button" class="theme-choice" data-primary="#3f7d4b" data-accent="#d94b3d" data-paper="#fff8f1"><span class="swatch" style="background:#d94b3d"></span>トマト</button><button type="button" class="theme-choice" data-primary="#278b82" data-accent="#f0a35b" data-paper="#f5fcfa"><span class="swatch" style="background:#278b82"></span>ミント</button><button type="button" class="theme-choice" data-primary="#887b16" data-accent="#f1c644" data-paper="#fffdf2"><span class="swatch" style="background:#f1c644"></span>レモン</button><button type="button" class="theme-choice" data-primary="#176b87" data-accent="#e76554" data-paper="#f4fbfd"><span class="swatch" style="background:#176b87"></span>海</button><button type="button" class="theme-choice" data-primary="#755447" data-accent="#d7865a" data-paper="#fbf7f2"><span class="swatch" style="background:#755447"></span>ココア</button><button type="button" class="theme-choice" data-primary="#39436d" data-accent="#c9788b" data-paper="#f6f5fb"><span class="swatch" style="background:#39436d"></span>夜</button>`);
+document.querySelectorAll('.theme-choice').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.theme-choice').forEach(x=>x.classList.remove('active'));btn.classList.add('active');setColors(btn.dataset.primary,btn.dataset.accent,btn.dataset.paper)}));
+document.querySelector('#applyColors').addEventListener('click',()=>{document.querySelectorAll('.theme-choice').forEach(x=>x.classList.remove('active'));setColors(document.querySelector('#primaryColor').value,document.querySelector('#accentColor').value,getComputedStyle(document.documentElement).getPropertyValue('--paper').trim());document.querySelector('.theme-settings').open=false});
+try{const saved=JSON.parse(localStorage.getItem('tabenavi-colors'));if(saved)setColors(saved.primary,saved.accent,saved.paper);else setColors('#28785d','#f07c42','#fbfaf5')}catch(e){setColors('#28785d','#f07c42','#fbfaf5')}
+document.querySelector('#planner').addEventListener('submit',e=>{e.preventDefault();buildPlan(false)});document.querySelector('#again').addEventListener('click',()=>buildPlan(true));
+</script></body></html>
